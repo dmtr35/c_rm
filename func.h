@@ -17,20 +17,22 @@ int check_func(struct user_data *ptr_user_data, _Bool flag_v);
 int is_directory(const char *path);
 int file_exists(const char *path);
 char* get_current_datatime(void);
-char *replace_slashes_dash(char *file_path, size_t length_dir_file);
-_Bool check_dir(char *file_name, size_t name_size_tar_gz);
-void extractFileNameAndPath(const char *arg_token, char *file_name, char *dir_file);
+char* replace_slashes_dash(char *file_path);
+// _Bool check_dir(char *file_name, size_t name_size_tar_gz);
+void extractFileNameAndPath(char *file_name, char *file_path);
+// void extractFileNameAndPath(const char *arg_token, char *file_name, char *dir_file);
 
 
 // archive.c
 
 
 // remove_files.c
-void remove_one_file(const char *path, char *file_name, _Bool flag_v);
-void remove_one_dir(const char *path, char *dir_name, _Bool flag_v);
-int remove_directory_recursive(const char *path, char *file_name, _Bool flag_v);
+void remove_one_file(const char *path, char *file_name, _Bool flag_v, _Bool flag_s);
+void remove_one_dir(const char *path, char *dir_name, _Bool flag_v, _Bool flag_s);
+int remove_directory_recursive(const char *path, char *file_name, _Bool flag_v, _Bool flag_s);
 void remove_files(char *arr_files, struct user_data *ptr_user_data, _Bool flag_v, _Bool flag_s);
-void save_file(char *absolute_path, char *dir_name, char *file_name, struct user_data *ptr_user_data, _Bool flag_v);
+void save_file(char *absolute_path, char *dir_name, char *file_name, struct user_data *ptr_user_data);
+void restore(char *arr_files, struct user_data *ptr_user_data, _Bool flag_v, _Bool flag_s);
 
 
 

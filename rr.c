@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     char options[3] = "";
     _Bool flag_v = 0;
     _Bool flag_s = 0;
-    char absolute_path[1024];
+    // char absolute_path[1024];
 
 
     if(argc == 1) return 0;
@@ -59,9 +59,23 @@ int main(int argc, char *argv[])
             continue;
         }
         
+
         if(strchr(options, 'v') != 0) {
             flag_v = 1;
+
+            size_t len_absolute_path = strlen(ptr_user_data->current_directory) + strlen(argv[i]) + 1;
+            char *absolute_path = malloc(len_absolute_path);
+            realpath(argv[i], absolute_path);
+            // printf("absolute_path: %s\n", absolute_path);
+
+            if(!file_exists(absolute_path)) {
+                printf("File %s don't exists\n", argv[i]);
+                free(absolute_path);
+                continue;
+            }
+            free(absolute_path);
         }
+
         
         strcpy(arr_files + index, argv[i]);
         index += strlen(argv[i]);
@@ -78,57 +92,32 @@ int main(int argc, char *argv[])
 
 
 
-    if(strcmp(options, "") == 0){
-        printf("Option ' ' is set\n");
+    if(strcmp(options, "") == 0 || strcmp(options, "v") == 0){
+        // printf("Option '' || 'v' is set\n");
 
         if(ptr_user_data->trash_directory != ptr_user_data->current_directory){
             flag_s = 1;
-            remove_files(arr_files, ptr_user_data, flag_v, flag_s);
-        }else{
-            remove_files(arr_files, ptr_user_data, flag_v, flag_s);
         }
+        remove_files(arr_files, ptr_user_data, flag_v, flag_s);
 
-    } else if(strcmp(options, "r") == 0){
-        printf("Option 'r' is set\n");
+    } else if(strstr(options, "r")){
+        // printf("Option 'r' is set\n");
 
         remove_files(arr_files, ptr_user_data, flag_v, flag_s);
 
-    } else if(strcmp(options, "rv") == 0 || strcmp(options, "vr") == 0){
-        printf("Option 'rv' is set\n");
-
-        remove_files(arr_files, ptr_user_data, flag_v, flag_s);
-
-    } else if(strcmp(options, "v") == 0){
-        printf("Option 'v' is set\n");
-
-        if(ptr_user_data->trash_directory != ptr_user_data->current_directory){
-            flag_s = 1;
-            remove_files(arr_files, ptr_user_data, flag_v, flag_s);
-        }else{
-            remove_files(arr_files, ptr_user_data, flag_v, flag_s);
+    } else if(strstr(options, "u")){
+        // printf("Option 'u' is set\n");
+        if(ptr_user_data->trash_directory == ptr_user_data->current_directory){        // ИЗМЕНИТЬ НА !=
+            return 0;
+        } else {
+            restore(arr_files, ptr_user_data, flag_v, flag_s);
         }
-    } else if(strcmp(options, "d") == 0){
-        // printf("Option 'd' is set\n");
 
-    } else if(strcmp(options, "u") == 0){
-        // if(current_directory == trash_directory){              // ИЗМЕНИТЬ НА !=
-        //     return 0;
-        // } else {
-        //     restore(arr_files, total_length, ptr_trash_directory, trash_directory_size, flag_v);
-        // }
-        printf("Option 'u' is set\n");
-
-    } else if(strcmp(options, "uv") == 0 || strcmp(options, "vu") == 0){
-        // flag_v = 1;
-        // if(current_directory == trash_directory){               // ИЗМЕНИТЬ НА !=
-        //     return 0;
-        // } else {
-        //     restore(arr_files, total_length, ptr_trash_directory, trash_directory_size, flag_v);
-        // }
-        printf("Option 'uv' is set\n");
 
     } else if(strcmp(options, "h") == 0){
         // printf("Option 'h' is set\n");
+    } else if(strcmp(options, "d") == 0){
+        // printf("Option 'd' is set\n");
     }
 
 
