@@ -26,23 +26,17 @@ int main(int argc, char *argv[])
     char options[3] = "";
     _Bool flag_v = 0;
     _Bool flag_s = 0;
-    // char absolute_path[1024];
 
 
     if(argc == 1) return 0;
 
     int res = check_func(ptr_user_data, flag_v);
     if(res == 1) return 1;
-    // printf("user: %s\n", ptr_user_data->user);
-    // printf("home: %s\n", ptr_user_data->home);
-    // printf("dir_trash: %s\n", ptr_user_data->trash_directory);
-    // printf("dir_current: %s\n", ptr_user_data->current_directory);
     
 
     for(int i = 1; i <= argc - 1; i++){
         total_length += strlen(argv[i]) + 1;
     }
-    // printf("total_length: %d\n", total_length);
 
 
     char *arr_files = calloc(total_length, sizeof(char));
@@ -66,7 +60,6 @@ int main(int argc, char *argv[])
             size_t len_absolute_path = strlen(ptr_user_data->current_directory) + strlen(argv[i]) + 1;
             char *absolute_path = malloc(len_absolute_path);
             realpath(argv[i], absolute_path);
-            // printf("absolute_path: %s\n", absolute_path);
 
             if(!file_exists(absolute_path)) {
                 printf("File %s don't exists\n", argv[i]);
@@ -85,40 +78,48 @@ int main(int argc, char *argv[])
     }
     arr_files[index] = '\0';
 
-    // printf("options: %s\n", options);
-    // printf("arr_files:0: %s\n", arr_files);
-    // printf("arr_files:0: %ld\n", strlen(arr_files));
-    
 
 
 
     if(strcmp(options, "") == 0 || strcmp(options, "v") == 0){
-        // printf("Option '' || 'v' is set\n");
 
-        if(ptr_user_data->trash_directory != ptr_user_data->current_directory){
+        if(strcmp(ptr_user_data->trash_directory, ptr_user_data->current_directory) != 0){
             flag_s = 1;
         }
         remove_files(arr_files, ptr_user_data, flag_v, flag_s);
 
     } else if(strstr(options, "r")){
-        // printf("Option 'r' is set\n");
 
         remove_files(arr_files, ptr_user_data, flag_v, flag_s);
 
     } else if(strstr(options, "u")){
-        // printf("Option 'u' is set\n");
-        if(ptr_user_data->trash_directory == ptr_user_data->current_directory){        // ИЗМЕНИТЬ НА !=
+        if(strcmp(ptr_user_data->trash_directory, ptr_user_data->current_directory) != 0){
+            if(flag_v){
+                printf("File can only be recovered from garbage");
+            }
             return 0;
         } else {
             restore(arr_files, ptr_user_data, flag_v, flag_s);
         }
 
-
     } else if(strcmp(options, "h") == 0){
-        // printf("Option 'h' is set\n");
-    } else if(strcmp(options, "d") == 0){
-        // printf("Option 'd' is set\n");
-    }
+        printf("DESCRIPTION\n");
+        printf("put program in /usr/bin/rm/\n");
+        printf("\n");
+        printf("SYNOPSIS\n");
+        printf("rr [OPTION]... [FILE]... \n");
+        printf("\n");
+        printf("OPTIONS\n");
+        printf("the \"rr\" command deletes the file, saving it in /home/<user>/.my_trash, or restores  it with the same command\n");
+        printf("\n");
+        printf("-r: without saving the file, normal deletion without recovery\n");
+        printf("\n");
+        printf("-v: receive a report on completed work\n");
+        printf("\n");
+        printf("-u: restore file or directory from /$HOME/.my_trash\n");
+        printf("\n");
+        printf("-h: help\n");
+    } 
 
 
 
@@ -127,7 +128,6 @@ int main(int argc, char *argv[])
     free(arr_files);
     return 0;
 }
-
 
 
 

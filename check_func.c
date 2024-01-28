@@ -11,7 +11,6 @@
 
 
 int check_func(struct user_data *ptr_user_data, _Bool flag_v)
-// int check_func(char *ptr_user, char *ptr_home, char *ptr_current_directory, char *ptr_trash_directory, _Bool flag_v)
 {
     uid_t euid = geteuid();               // Получаем UID
 
@@ -66,10 +65,6 @@ int check_func(struct user_data *ptr_user_data, _Bool flag_v)
         perror("Error getting current directory");
         return 1;
     }
-
-
-
-
 
 }
 
