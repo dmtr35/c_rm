@@ -66,6 +66,8 @@ int check_func(struct user_data *ptr_user_data, _Bool flag_v)
         return 1;
     }
 
+    return 0;
+
 }
 
 

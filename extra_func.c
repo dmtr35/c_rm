@@ -42,12 +42,11 @@ char* get_current_datatime(void)
 
 char *replace_slashes_dash(char *dir_file)
 {
-    char length_dir_file = strlen(dir_file) + 1;
+    size_t length_dir_file = strlen(dir_file) + 1;
     char slash_or_dash[2];
     char first_symbol[2];
     char second_symbol[2];
     strncpy(slash_or_dash, dir_file, 1);
-    size_t length_symbol = sizeof(slash_or_dash) / sizeof(*slash_or_dash);
 
 
     if(strstr(slash_or_dash, "/")){

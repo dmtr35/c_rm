@@ -71,6 +71,8 @@ int remove_directory_recursive(const char *path, char *file_name, _Bool flag_v, 
 
     closedir(dir);
     remove_one_dir(path, file_name, flag_v, flag_s);
+
+    return 0;
 }
 
 void save_file(char *absolute_path, char *dir_name, char *file_name, struct user_data *ptr_user_data)

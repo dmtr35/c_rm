@@ -18,7 +18,7 @@ int is_tar_installed(void)
 
 int main(int argc, char *argv[])
 {
-    struct user_data user_data;
+    // struct user_data user_data;
     struct user_data *ptr_user_data = malloc(sizeof(struct user_data));
 
 
