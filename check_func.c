@@ -24,7 +24,6 @@ int check_func(struct user_data *ptr_user_data, _Bool flag_v)
             printf("%s not determined\n", sudo_user);
             return 1;
         }
-
     } else {
         const char *user = getenv("USER");
         if(user != NULL) {
